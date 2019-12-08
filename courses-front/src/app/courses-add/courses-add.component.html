@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+  {{ title }}
+</mat-toolbar>
+
+<form ngForm (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <div class="example-container">
+        <!-- Active -->
+        <mat-checkbox color="primary" labelPosition="before"
+                      name="active" [(ngModel)]="course.active">Activo</mat-checkbox>
+
+        <!-- Teacher -->
+        <mat-form-field appearance="outline">
+          <mat-label>Profesor</mat-label>
+          <mat-select placeholder="Profesor" name="teacher" [(ngModel)]="course.teacher">
+            <mat-option value="option" *ngFor="let teacher of teachers" [value] = "teacher">{{ teacher }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Title -->
+        <mat-form-field appearance="outline">
+          <mat-label>Título</mat-label>
+          <input matInput placeholder="Título" name="title" [(ngModel)]="course.title">
+        </mat-form-field>
+
+        <!-- Level -->
+        <mat-form-field appearance="outline">
+          <mat-label>Nivel</mat-label>
+          <mat-select placeholder="Nivel" name="level" [(ngModel)]="course.level">
+            <mat-option value="option" *ngFor="let level of levels" [value] = "level">{{ level }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Hours -->
+        <mat-form-field appearance="outline">
+          <mat-label>Horas</mat-label>
+          <input matInput type="number" placeholder="Horas" name="hours" [(ngModel)]="course.hours" />
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div style="text-align:center; padding:20px">
+    <button type="submit" mat-stroked-button color="primary">Añadir</button>
+  </div>
+</form>
