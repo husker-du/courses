@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Course } from "../model/course";
 import { CourseService } from "../service/course.service";
+import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 
 @Component({
   selector: 'app-courses-list',
@@ -13,16 +13,14 @@ export class CoursesListComponent implements OnInit {
   private title: string = "Catálogo de Cursos";
 
   // Table data
-  private displayedColumns: string[] = ['title', 'teacher', 'level', 'hours'];
-  private courses: Course[];
-  private dataSource: Course[];
+  private displayedColumns: string[] = ['title', 'teacher', 'level', 'hours', 'download'];
+  private dataSource: MatTableDataSource<Course>;
 
   // Paginator inputs
-  private length: number = 0;
-  private pageSize: number = 4;
-  private pageSizeOptions: number[] = [2, 4, 10, 20];
-  private fromIndex: number = 0;
-  private toIndex: number = this.pageSize;
+  private pageSizeOptions: number[] = [4, 8, 12, 20];
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private courseService: CourseService) { }
@@ -31,24 +29,19 @@ export class CoursesListComponent implements OnInit {
     this.init();
   }
 
-  private init() {
+  doAction(teacher: string): void {
+    console.log("Descargando "+ teacher + "...");
+  }
+
+  private init(): void {
     this.courseService.getAllCourses()
       .subscribe(data => {
-          this.courses = data;
-          this.length = this.courses.length;
-          this.loadPage();
+          this.dataSource = new MatTableDataSource<Course>(data);
+           // Set the paginator and sort after the view init since this component will
+           // be able to query its view for the initialized paginator and sort.
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         },
         error => console.error(error));
   }
-
-  private loadPage() {
-    this.dataSource = this.courses.slice(this.fromIndex, this.toIndex);
-  }
-
-  public onPageEvent(pEvent: PageEvent) {
-    this.fromIndex = pEvent.pageIndex * pEvent.pageSize;
-    this.toIndex = this.fromIndex + pEvent.pageSize;
-    this.loadPage();
-  }
-
 }

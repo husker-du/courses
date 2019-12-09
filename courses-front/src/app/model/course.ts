@@ -6,4 +6,5 @@ export class Course {
   active: number;
   idTeacher: number;
   teacher: string;
+  subject: any;
 }

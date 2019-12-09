@@ -121,7 +121,7 @@ class CoursesDbTests {
 	void insertCourseShouldCountFive() {
 		CourseData courseData = new CourseData(null, "C-Sharp for Dummies",
 				"Intermedio", 30, (byte)0, null, "Alejandra Mateos");
-		assertEquals(courseService.insertCourse(courseData), 1);
+		assertEquals(courseService.addCourse(courseData), 1);
 		assertEquals(courseMapper.select(SelectDSLCompleter.allRows()).size(), 5);
 	}
 

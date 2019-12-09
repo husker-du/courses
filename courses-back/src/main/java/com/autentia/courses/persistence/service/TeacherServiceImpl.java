@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -21,5 +22,12 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<Teacher> getAllTeachers() {
         return teacherMapper.select(SelectDSLCompleter.allRows());
+    }
+
+    @Override
+    public List<String> getTeacherNames() {
+        return getAllTeachers().stream()
+                .map(teacher -> String.format("%s %s", teacher.getFirstName(), teacher.getLastName()))
+                .collect(Collectors.toList());
     }
 }
