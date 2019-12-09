@@ -6,6 +6,7 @@ import com.autentia.courses.persistence.model.CourseData;
 import java.util.List;
 
 public interface CourseService {
+
     List<Course> getAllCourses();
 
     List<CourseData> getActiveCourseData();
@@ -14,5 +15,5 @@ public interface CourseService {
 
     List<String> getCourseLevels();
 
-    CourseData insertCourse(CourseData course);
+    CourseData addCourse(CourseData course);
 }

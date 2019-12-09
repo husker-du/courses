@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from "../service/course.service";
 import { Course } from "../model/course";
+import { Teacher } from "../model/teacher";
 import { Router } from "@angular/router";
+import { HttpResponse } from "@angular/common/http";
+import { FileService } from "../service/file.service";
 
 @Component({
   selector: 'app-courses-add',
@@ -14,34 +17,70 @@ export class CoursesAddComponent implements OnInit {
 
   private course: Course = new Course();
 
-  private teachers: string[];
+  private teachers: Teacher[] = [];
 
-  private levels: string[];
+  private teacherNames: string[] = [] ;
+
+  private levels: string[] = [];
+
+  failed: boolean = false;
+
+  selectedFile: File = null;
 
   constructor(
     private courseService: CourseService,
-    private router: Router
-  ) { }
+    private fileService: FileService,
+    private router: Router) { }
 
   ngOnInit() {
     this.loadData();
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     // Convert the boolean to byte (1 or 0)
     this.course.active = this.course.active ? 1 : 0;
+    console.log('save course...')
     console.log(this.course);
     this.save();
+    if (this.selectedFile) {
+      this.uploadFile();
+    }
+  }
+
+  public onFileChanged(event): void {
+    console.log(event);
+    this.selectedFile = event.target.files.item(0);
   }
 
   private save() {
     this.courseService.createCourse(this.course)
-      .subscribe(data => {
-        console.log(data);
+      .subscribe(response => {
+        if (response instanceof HttpResponse) {
+          console.log(response.body);
+        }
         this.course = new Course();
         this.gotoCourseList();
       },
-        error => console.error(error));
+        error => {
+        console.error(error);
+        this.failed = true;
+      });
+  }
+
+  private uploadFile(): void {
+    this.fileService.uploadFile(this.selectedFile)
+      .subscribe ( response => {
+          console.log("... uploadFile response: ");
+          console.log(response);
+          if (response instanceof HttpResponse) {
+            console.log(response.body);
+          }
+          //this.receivedImageData = res;
+          //this.base64Data = this.receivedImageData.pic;
+          //this.convertedImage = 'application/pdf,' + this.base64Data;
+        },
+        error => console.error(error)
+      );
   }
 
   private loadData() {
@@ -54,6 +93,9 @@ export class CoursesAddComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.teachers = data;
+        this.teachers.forEach(teacher =>
+            this.teacherNames.push(teacher.firstName + ' ' + teacher.lastName)
+        );
       },
         error => console.error(error));
   }

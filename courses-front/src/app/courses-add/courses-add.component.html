@@ -8,26 +8,26 @@
       <div class="example-container">
         <!-- Active -->
         <mat-checkbox color="primary" labelPosition="before"
-                      name="active" [(ngModel)]="course.active">Activo</mat-checkbox>
+                      name="active" [(ngModel)]="course.active" (change)="failed=false">Activo</mat-checkbox>
 
         <!-- Teacher -->
         <mat-form-field appearance="outline">
           <mat-label>Profesor</mat-label>
-          <mat-select placeholder="Profesor" name="teacher" [(ngModel)]="course.teacher">
-            <mat-option value="option" *ngFor="let teacher of teachers" [value] = "teacher">{{ teacher }}</mat-option>
+          <mat-select placeholder="Profesor" name="teacher" [(ngModel)]="course.teacher" (focusin)="failed=false">
+            <mat-option value="option" *ngFor="let teacherName of teacherNames" [value] = "teacherName">{{ teacherName }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <!-- Title -->
         <mat-form-field appearance="outline">
           <mat-label>Título</mat-label>
-          <input matInput placeholder="Título" name="title" [(ngModel)]="course.title">
+          <input matInput placeholder="Título" name="title" [(ngModel)]="course.title" (focusin)="failed=false" />
         </mat-form-field>
 
         <!-- Level -->
         <mat-form-field appearance="outline">
           <mat-label>Nivel</mat-label>
-          <mat-select placeholder="Nivel" name="level" [(ngModel)]="course.level">
+          <mat-select placeholder="Nivel" name="level" [(ngModel)]="course.level" (focusin)="failed=false">
             <mat-option value="option" *ngFor="let level of levels" [value] = "level">{{ level }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -35,10 +35,26 @@
         <!-- Hours -->
         <mat-form-field appearance="outline">
           <mat-label>Horas</mat-label>
-          <input matInput type="number" placeholder="Horas" name="hours" [(ngModel)]="course.hours" />
+          <input matInput type="number" placeholder="Horas" name="hours" [(ngModel)]="course.hours" (focusin)="failed=false" />
+        </mat-form-field>
+
+        <!-- Subject File -->
+        <mat-form-field appearance="outline">
+          <mat-label>Temario del Curso</mat-label>
+          <ngx-mat-file-input #removableInput name="subject" [(ngModel)]="course.subject"  placeholder="Temario del Curso"
+                              (change)="onFileChanged($event)" (focusin)="failed=false"></ngx-mat-file-input>
+          <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
+            <mat-icon>clear</mat-icon>
+          </button>
+          <mat-icon matSuffix *ngIf="removableInput.empty" style="color: grey">folder</mat-icon>
         </mat-form-field>
       </div>
     </mat-card-content>
+    <mat-card-footer>
+      <div style="text-align:center; color:orangered; height:2rem">
+        <h4 [hidden]="!failed">Se ha producido un lamentable error.</h4>
+      </div>
+    </mat-card-footer>
   </mat-card>
 
   <div style="text-align:center; padding:20px">

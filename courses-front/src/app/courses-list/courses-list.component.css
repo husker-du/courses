@@ -11,6 +11,19 @@ mat-card {
   padding-top: 50px;
 }
 
+mat-card-content {
+  height: 430px;
+  overflow: auto;
+}
+
+th.mat-header-cell {
+  color: hotpink;
+}
+
+td.mat-cell {
+  width: 30%;
+}
+
 mat-toolbar {
   padding-left: 44%;
 }

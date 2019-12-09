@@ -107,7 +107,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseData insertCourse(CourseData courseData) {
+    public CourseData addCourse(CourseData courseData) {
         CourseData res = null;
         String teacherName = courseData.getTeacher();
         Integer idTeacher = customMapper.findTeacherIdByName(teacherName);
