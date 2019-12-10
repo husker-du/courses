@@ -1,10 +1,6 @@
 package com.autentia.courses;
 
-import com.autentia.courses.persistence.mapper.TeacherMapper;
-import com.autentia.courses.persistence.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.dynamic.sql.select.CountDSLCompleter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,17 +13,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 @Slf4j
 @SpringBootApplication
 public class CoursesApplication implements ApplicationRunner {
-
-	CourseService courseService;
-
-	TeacherMapper teacherMapper;
-
-	@Autowired
-	public CoursesApplication(TeacherMapper teacherMapper,
-							  CourseService courseService) {
-		this.teacherMapper = teacherMapper;
-		this.courseService =  courseService;
-	}
 
 	public static void main(String[] args) {
 

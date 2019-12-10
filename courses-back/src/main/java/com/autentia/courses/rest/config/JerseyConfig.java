@@ -24,7 +24,6 @@ public class JerseyConfig extends ResourceConfig {
         register(CoursesController.class);
         register(TeachersController.class);
         register(LevelsController.class);
-        register(FileController.class);
         register(GenericExceptionMapper.class);
         register(CORSFilter.class);
     }
