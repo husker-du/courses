@@ -20,7 +20,14 @@
         <javaClientGenerator targetPackage="com.autentia.courses.persistence.mapper"
                              targetProject="src/main/java" />
 
-        <table tableName="teacher" />
-        <table tableName="course" />
+        <table tableName="teacher">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="course">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="subject_file">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

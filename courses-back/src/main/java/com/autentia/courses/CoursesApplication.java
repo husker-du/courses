@@ -27,7 +27,7 @@ public class CoursesApplication implements ApplicationRunner {
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(20971520);
+		multipartResolver.setMaxUploadSize(41943040);
 		return multipartResolver;
 	}
 }
