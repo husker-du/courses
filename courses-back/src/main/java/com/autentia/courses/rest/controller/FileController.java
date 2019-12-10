@@ -1,27 +1,26 @@
 package com.autentia.courses.rest.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
-@Controller
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1/file")
 public class FileController {
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Path("/upload")
-    public Response uploadData(MultipartFile file) throws IOException {
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadData(MultipartFile file) throws IOException {
+        log.info("Upload file...");
         if (file != null) {
             InputStream inputStream = file.getInputStream();
             String originalName = file.getOriginalFilename();
@@ -35,11 +34,11 @@ public class FileController {
             log.info("size: " + size);
             log.info("size: " + size);
         } else {
-            //throw new RuntimeException("You must select the a file for uploading");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("A file must be added");
         }
 
-        return Response.status(Response.Status.OK)
-               .build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("File was successfully uploaded");
     }
-
 }
