@@ -27,7 +27,7 @@ export class FileService {
 
 
   public downloadFile(idFile: number): Observable<SubjectFile> {
-    return this.http.get(FileService.API_ENDPOINT + "/files/" + idFile);
+    return this.http.get<SubjectFile>(FileService.API_ENDPOINT + "/files/" + idFile);
   }
 
 }

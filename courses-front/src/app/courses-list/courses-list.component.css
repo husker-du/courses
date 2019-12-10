@@ -8,11 +8,11 @@ table {
 }
 
 mat-card {
-  padding-top: 50px;
+  padding-top: 40px;
 }
 
 mat-card-content {
-  height: 430px;
+  height: 450px;
   overflow: auto;
 }
 
