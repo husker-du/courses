@@ -4,8 +4,8 @@ services:
   
   mysqldb:
     build:
-      context: .
-      dockerfile: ./docker/mysql/Dockerfile
+      context: ./courses-back
+      dockerfile: ./Dockerfile
     image: courses/mysql
     container_name: courses_mysql
     ports:
@@ -25,8 +25,8 @@ services:
 
   angular:
     build:
-      context: .
-      dockerfile: ./courses-front/Dockerfile
+      context: ./courses-front
+      dockerfile: ./Dockerfile
     image: courses/angular
     container_name: courses_angular
     ports:
@@ -39,6 +39,9 @@ services:
     networks:
       - courses_net
     restart: on-failure
+
+volumes:
+  mysql:
 
 networks:
   courses_net:

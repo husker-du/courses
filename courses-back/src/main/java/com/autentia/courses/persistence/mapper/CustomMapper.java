@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface CustomMapper {
     @Select("SELECT COLUMN_TYPE " +
             "FROM INFORMATION_SCHEMA.COLUMNS " +
-            "WHERE TABLE_SCHEMA = \'coursesdb\' " +
+            "WHERE TABLE_SCHEMA = \'courses_db\' " +
             "AND TABLE_NAME = \'course\' " +
             "AND COLUMN_NAME = \'level\'")
     String getLevelEnum();
