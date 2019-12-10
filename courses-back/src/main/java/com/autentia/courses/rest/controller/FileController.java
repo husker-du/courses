@@ -24,7 +24,7 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/{id::[\\\\d]+}")
+    @GetMapping("/{id:[\\d]+}")
     public SubjectFile getSubjectFile(@PathVariable Integer id) {
         SubjectFile file = null;
 

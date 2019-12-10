@@ -16,10 +16,11 @@ import { MatButtonModule,
          MatInputModule,
          MatCheckboxModule,
          MatToolbarModule,
-         MatIconModule} from '@angular/material';
+         MatIconModule,
+         MatSnackBarModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { CoursesListComponent } from './courses-list/courses-list.component';
+import { CoursesListComponent, SnackFileComponent } from './courses-list/courses-list.component';
 import { CoursesAddComponent } from './courses-add/courses-add.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -28,7 +29,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AppComponent,
     CoursesListComponent,
     CoursesAddComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SnackFileComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MatInputModule,
     MatToolbarModule,
     MatIconModule,
+    MatSnackBarModule
   ],
+  entryComponents: [SnackFileComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
