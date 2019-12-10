@@ -38,10 +38,10 @@
           <input matInput type="number" placeholder="Horas" name="hours" [(ngModel)]="course.hours" (focusin)="failed=false" />
         </mat-form-field>
 
-        <!-- Subject File -->
+        <!-- Subject SubjectFile -->
         <mat-form-field appearance="outline">
           <mat-label>Temario del Curso</mat-label>
-          <ngx-mat-file-input #removableInput name="subject" [(ngModel)]="course.subject"  placeholder="Temario del Curso"
+          <ngx-mat-file-input #removableInput name="subject" placeholder="Temario del Curso"
                               (change)="onFileChanged($event)" (focusin)="failed=false"></ngx-mat-file-input>
           <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
             <mat-icon>clear</mat-icon>
@@ -52,7 +52,7 @@
     </mat-card-content>
     <mat-card-footer>
       <div style="text-align:center; color:orangered; height:2rem">
-        <h4 [hidden]="!failed">Se ha producido un lamentable error.</h4>
+        <h4 [hidden]="!failed">Se ha producido un error al registrar el nuevo curso.</h4>
       </div>
     </mat-card-footer>
   </mat-card>

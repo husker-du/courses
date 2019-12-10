@@ -107,7 +107,6 @@ class CoursesDbTests {
 				.filter(course -> course.getTitle().equals("Angular 2"))
 				.findAny();
 		assertTrue(optCourse.isPresent());
-		//String name = new String(optCourse.get().getTeacher().getBytes("ISO-8859-15"), "UTF-8");
 		assertEquals(optCourse.get().getTeacher(),"Rubén Aguilera");
 	}
 
@@ -119,8 +118,8 @@ class CoursesDbTests {
 	@Test
 	@Transactional
 	void insertCourseShouldCountFive() {
-		CourseData courseData = new CourseData(null, "C-Sharp for Dummies",
-				"Intermedio", 30, (byte)0, null, "Alejandra Mateos");
+		CourseData courseData = new CourseData(null, "C-Sharp for Dummies 2",
+				"Intermedio", 30, (byte)0, null, null,"Alejandra Mateos");
 		assertEquals(courseService.addCourse(courseData), 1);
 		assertEquals(courseMapper.select(SelectDSLCompleter.allRows()).size(), 5);
 	}

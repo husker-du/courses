@@ -61,7 +61,8 @@ public class CourseServiceImpl implements CourseService {
                         Teacher teacher = optTeacher.get();
                         teacherName = String.format("%s %s", teacher.getFirstName(), teacher.getLastName());
                     }
-                    return new CourseData(course.getId(), course.getTitle(), course.getLevel(), course.getHours(), course.getActive(), course.getIdTeacher(), teacherName);
+                    return new CourseData(course.getId(), course.getTitle(), course.getLevel(),
+                            course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacherName);
                 })
                 .collect(Collectors.toList());
     }
@@ -75,7 +76,7 @@ public class CourseServiceImpl implements CourseService {
                 Teacher teacher = optTeacher.get();
                 String teacherName = String.format("%s %s", teacher.getFirstName(), teacher.getLastName());
                 CourseData courseData = new CourseData(course.getId(), course.getTitle(), course.getLevel(),
-                        course.getHours(), course.getActive(), course.getIdTeacher(), teacherName);
+                        course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacherName);
                 courseList.add(courseData);
             }
         }
@@ -107,25 +108,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseData addCourse(CourseData courseData) {
-        CourseData res = null;
+    public int addCourse(CourseData courseData) {
+        int id = 0;
         String teacherName = courseData.getTeacher();
         Integer idTeacher = customMapper.findTeacherIdByName(teacherName);
         Course course = (Course)courseData;
         course.setIdTeacher(idTeacher);
-        if (courseMapper.insert(course) == 1) {
-            res = courseData;
-            Optional<Course> optCourse = courseMapper
-                    .selectOne(select(CourseDynamicSqlSupport.id, title, level, hours, active, CourseDynamicSqlSupport.idTeacher)
-                    .from(CourseDynamicSqlSupport.course)
-                    .where(title, isEqualTo(courseData.getTitle()))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3));
-            if (optCourse.isPresent()) {
-                courseData.setId(optCourse.get().getId());
-            }
-            res = courseData;
+        if (courseMapper.insert(course) > 0) {
+            id = course.getId();
         }
-        return res;
+        return id;
     }
 }

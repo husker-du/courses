@@ -15,5 +15,5 @@ public interface CourseService {
 
     List<String> getCourseLevels();
 
-    CourseData addCourse(CourseData course);
+    int addCourse(CourseData course);
 }

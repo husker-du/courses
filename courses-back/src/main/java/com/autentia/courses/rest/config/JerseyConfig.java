@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
+import java.util.LinkedHashMap;
 
 @Configuration
 @ApplicationPath("/api/v2")
@@ -26,5 +27,8 @@ public class JerseyConfig extends ResourceConfig {
         register(LevelsController.class);
         register(GenericExceptionMapper.class);
         register(CORSFilter.class);
+        setProperties(new LinkedHashMap<String, Object>() {{
+            put(org.glassfish.jersey.server.ServerProperties.PROCESSING_RESPONSE_ERRORS_ENABLED, true);
+        }});
     }
 }

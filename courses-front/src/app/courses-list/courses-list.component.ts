@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Course } from "../model/course";
 import { CourseService } from "../service/course.service";
+import { FileService } from "../service/file.service";
 import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
+import {SubjectFile} from "../model/subject-file";
 
 @Component({
   selector: 'app-courses-list',
@@ -23,19 +25,29 @@ export class CoursesListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
-    private courseService: CourseService) { }
+    private courseService: CourseService,
+    private fileService: FileService) { }
 
   ngOnInit() {
     this.init();
   }
 
-  doAction(teacher: string): void {
-    console.log("Descargando "+ teacher + "...");
+  doAction(idFile: number): void {
+    console.log("Downloading file "+ idFile + "...");
+    this.fileService.downloadFile(idFile)
+      .subscribe(data => {
+          console.log(".... file data");
+          console.log(data);
+          let subjectFile: SubjectFile = data;
+      },
+        error => console.error(error));
   }
 
   private init(): void {
     this.courseService.getAllCourses()
       .subscribe(data => {
+          console.log("...... data");
+          console.log(data);
           this.dataSource = new MatTableDataSource<Course>(data);
            // Set the paginator and sort after the view init since this component will
            // be able to query its view for the initialized paginator and sort.

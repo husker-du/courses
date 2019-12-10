@@ -39,20 +39,19 @@ export class CoursesAddComponent implements OnInit {
   public onSubmit(): void {
     // Convert the boolean to byte (1 or 0)
     this.course.active = this.course.active ? 1 : 0;
-    console.log('save course...')
-    console.log(this.course);
-    this.save();
     if (this.selectedFile) {
       this.uploadFile();
+    } else {
+      this.saveCourse();
     }
   }
 
   public onFileChanged(event): void {
-    console.log(event);
     this.selectedFile = event.target.files.item(0);
+    console.log(this.selectedFile);
   }
 
-  private save() {
+  private saveCourse() {
     this.courseService.createCourse(this.course)
       .subscribe(response => {
         if (response instanceof HttpResponse) {
@@ -70,14 +69,11 @@ export class CoursesAddComponent implements OnInit {
   private uploadFile(): void {
     this.fileService.uploadFile(this.selectedFile)
       .subscribe ( response => {
-          console.log("... uploadFile response: ");
-          console.log(response);
-          if (response instanceof HttpResponse) {
-            console.log(response.body);
+          if (response instanceof HttpResponse && response.ok) {
+            // Set the file id to the course object
+            this.course.idFile = this.getIdFile(String(response.body));
+            this.saveCourse();
           }
-          //this.receivedImageData = res;
-          //this.base64Data = this.receivedImageData.pic;
-          //this.convertedImage = 'application/pdf,' + this.base64Data;
         },
         error => console.error(error)
       );
@@ -91,7 +87,6 @@ export class CoursesAddComponent implements OnInit {
   private loadTeachers() {
     this.courseService.getAllTeachers()
       .subscribe(data => {
-        console.log(data);
         this.teachers = data;
         this.teachers.forEach(teacher =>
             this.teacherNames.push(teacher.firstName + ' ' + teacher.lastName)
@@ -103,7 +98,6 @@ export class CoursesAddComponent implements OnInit {
   private loadLevels() {
     this.courseService.getAllLevels()
       .subscribe(data => {
-        console.log(data);
         this.levels = data;
       },
         error => console.error(error));
@@ -111,5 +105,15 @@ export class CoursesAddComponent implements OnInit {
 
   private gotoCourseList() {
     this.router.navigate(['courses-list']);
+  }
+
+  private getIdFile(body: string): number {
+    let idFile: number = 0;
+    let re = new RegExp('id_file:\\s*(\\d)');
+    let match = re.exec(body);
+    if (match.length >= 1) {
+      idFile = parseInt(match[1]);
+    }
+    return idFile;
   }
 }
