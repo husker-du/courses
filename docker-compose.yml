@@ -1,6 +1,19 @@
 version: '3.7'
 
 services:
+  spring-backend:
+    build:
+      context: ./courses-back
+      dockerfile: Dockerfile_spring
+      args:
+        - JAR_FILE=${JAR_FILE}
+    image: courses/spring_backend
+    container_name: courses_spring
+    ports:
+      - ${DOCKER_SPRING_EXPOSED_PORT}:8001
+    networks:
+      - courses_net
+    restart: on-failure
   
   mysqldb:
     build:
