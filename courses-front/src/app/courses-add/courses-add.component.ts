@@ -109,7 +109,7 @@ export class CoursesAddComponent implements OnInit {
 
   private getIdFile(body: string): number {
     let idFile: number = 0;
-    let re = new RegExp('id_file:\\s*(\\d)');
+    let re = new RegExp('id_file:\\s*(\\d*)');
     let match = re.exec(body);
     if (match.length >= 1) {
       idFile = parseInt(match[1]);

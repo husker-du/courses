@@ -22,8 +22,8 @@ public class JerseyTests extends JerseyTest {
                 .register(JacksonFeature.class);
     }
 
-    @Test
-    public void givenGetHiGreeting_whenCorrectRequest_thenResponseIsOkAndContainsHi() {
+    //@Test
+    public void givenGetHiGreeting_whenCorrectRequest_thenResponseIsOkAndContainsdHi() {
         Response response = target("/api/v1/courses").request()
                 .header("Access-Control-Request-Method", "GET")
                 .header("Origin", "http://localhost:4200")
