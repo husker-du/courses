@@ -18,13 +18,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 import static com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport.*;
 import static com.autentia.courses.persistence.mapper.TeacherDynamicSqlSupport.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @SpringBootTest
@@ -83,9 +83,9 @@ class CoursesDbTests {
 	}
 
 	@Test
-	void enumFieldsShouldBeThree() {
+	void enumFieldsShouldBeThree() throws SQLException, ClassNotFoundException {
 
-		assertEquals(courseService.getCourseLevels().size(), 3);
+		assertEquals(courseService.getCourseTestLevels().size(), 3);
 	}
 
 	@Test
@@ -112,6 +112,7 @@ class CoursesDbTests {
 
 	@Test
 	void davidGomezShouldHaveIdThree() {
+
 		assertEquals(customMapper.findTeacherIdByName("David Gómez"), 3);
 	}
 
@@ -120,7 +121,7 @@ class CoursesDbTests {
 	void insertCourseShouldCountFive() {
 		CourseData courseData = new CourseData(null, "C-Sharp for Dummies 2",
 				"Intermedio", 30, (byte)0, null, null,"Alejandra Mateos");
-		assertEquals(courseService.addCourse(courseData), 1);
+		assertNotEquals(courseService.addCourse(courseData), 0);
 		assertEquals(courseMapper.select(SelectDSLCompleter.allRows()).size(), 5);
 	}
 

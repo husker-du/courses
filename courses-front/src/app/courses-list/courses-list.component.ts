@@ -41,10 +41,14 @@ export class CoursesListComponent implements OnInit {
     console.log("Downloading file "+ idFile + "...");
     this.fileService.downloadFile(idFile)
       .subscribe(data => {
-          console.log(data);
           let subjectFile: SubjectFile = data;
-          const blob = new Blob([subjectFile.data], { type: subjectFile.type });
-          FileSaver.saveAs(blob, subjectFile.fileName);
+          // Encode data to Base64
+          let fileData = this.fileService.b64toBlob(subjectFile.data, subjectFile.type);
+
+          // Save the file
+          FileSaver.saveAs(fileData, subjectFile.fileName);
+
+          // Update the file name in the snack bar component
           this.data.changeFileName(subjectFile.fileName);
           this.fileSnackBar.openFromComponent(SnackFileComponent, {
              duration: 5000,
@@ -80,5 +84,4 @@ export class SnackFileComponent implements OnInit {
   ngOnInit(): void {
     this.data.currentFileName.subscribe(message => this.fileName = message)
   }
-
 }

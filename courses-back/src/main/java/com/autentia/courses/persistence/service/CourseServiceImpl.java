@@ -1,6 +1,5 @@
 package com.autentia.courses.persistence.service;
 
-import com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport;
 import com.autentia.courses.persistence.mapper.CourseMapper;
 import com.autentia.courses.persistence.mapper.CustomMapper;
 import com.autentia.courses.persistence.mapper.TeacherMapper;
@@ -8,7 +7,6 @@ import com.autentia.courses.persistence.model.Course;
 import com.autentia.courses.persistence.model.CourseData;
 import com.autentia.courses.persistence.model.Teacher;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.select;
+import static com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport.title;
 
 @Slf4j
 @Service
@@ -89,6 +85,30 @@ public class CourseServiceImpl implements CourseService {
 
         // Get the level enum description from database
         String levelEnum = customMapper.getLevelEnum();
+
+        // Create a pattern object
+        Pattern pattern = Pattern.compile("enum\\(([\\W\\w]+)\\)");
+
+        // Create a matcher object
+        Matcher matcher = pattern.matcher(levelEnum);
+
+        // Extract the levels from the enum comma-separated string
+        if (matcher.find()  &&  matcher.groupCount() == 1) {
+            String[] enums = matcher.group(1).split(",");
+            // Remove quotes and convert to a list of strings
+            levels = Arrays.stream(enums)
+                    .map(e -> e.replace("\'", ""))
+                    .collect(Collectors.toList());
+        }
+        return levels;
+    }
+
+    @Override
+    public List<String> getCourseTestLevels() {
+        List<String> levels = new ArrayList<>();
+
+        // Get the level enum description from database
+        String levelEnum = customMapper.getLevelEnumTest();
 
         // Create a pattern object
         Pattern pattern = Pattern.compile("enum\\(([\\W\\w]+)\\)");

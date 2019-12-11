@@ -78,6 +78,20 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Jersey Test Framework -->
+		<dependency>
+			<groupId>org.glassfish.jersey.test-framework</groupId>
+			<artifactId>jersey-test-framework-core</artifactId>
+			<version>2.27</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+			<version>2.27</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Dependencies to fix error when POST against a JERSEY endpoint -->
 		<dependency>
 			<groupId>com.sun.activation</groupId>
@@ -129,6 +143,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

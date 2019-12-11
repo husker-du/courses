@@ -23,6 +23,27 @@ services:
       - courses_net
     restart: on-failure
 
+  mysqldb_test:
+    build:
+      context: ./courses-back
+      dockerfile: ./Dockerfile_test
+    image: courses/mysql_test
+    container_name: courses_mysql_test
+    ports:
+      - ${DOCKER_DB_EXPOSED_PORT_TEST}:3306
+    volumes:
+      - mysql_test:/var/lib/mysql
+    environment:
+      TZ: "Europe/Madrid"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: ${DB_DATABASE_TEST}
+      MYSQL_USER: ${DB_USERNAME_TEST}
+      MYSQL_PASSWORD: ${DB_PASSWORD_TEST}
+    networks:
+      - courses_net_test
+    restart: on-failure
+
   angular:
     build:
       context: ./courses-front
@@ -42,7 +63,10 @@ services:
 
 volumes:
   mysql:
+  mysql_test:
 
 networks:
   courses_net:
     name: courses_net
+  courses_net_test:
+    name: courses_net_test
