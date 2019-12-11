@@ -23,9 +23,9 @@ export class CoursesAddComponent implements OnInit {
 
   private levels: string[] = [];
 
-  failed: boolean = false;
+  public failed: boolean = false;
 
-  selectedFile: File = null;
+  public selectedFile: File = null;
 
   constructor(
     private courseService: CourseService,
@@ -51,7 +51,7 @@ export class CoursesAddComponent implements OnInit {
     console.log(this.selectedFile);
   }
 
-  private saveCourse() {
+  private saveCourse(): void {
     this.courseService.createCourse(this.course)
       .subscribe(response => {
         if (response instanceof HttpResponse) {
@@ -79,12 +79,12 @@ export class CoursesAddComponent implements OnInit {
       );
   }
 
-  private loadData() {
+  private loadData(): void {
     this.loadTeachers();
     this.loadLevels();
   }
 
-  private loadTeachers() {
+  private loadTeachers(): void {
     this.courseService.getAllTeachers()
       .subscribe(data => {
         this.teachers = data;
@@ -95,7 +95,7 @@ export class CoursesAddComponent implements OnInit {
         error => console.error(error));
   }
 
-  private loadLevels() {
+  private loadLevels(): void {
     this.courseService.getAllLevels()
       .subscribe(data => {
         this.levels = data;
@@ -103,7 +103,7 @@ export class CoursesAddComponent implements OnInit {
         error => console.error(error));
   }
 
-  private gotoCourseList() {
+  private gotoCourseList(): void {
     this.router.navigate(['courses-list']);
   }
 
