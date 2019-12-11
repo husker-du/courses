@@ -60,6 +60,7 @@ class CoursesDbTests {
 
 	@Test
 	void numTeachersShouldBeFive() {
+
 		assertEquals(teacherService.getAllTeachers().size(), 5);
 	}
 

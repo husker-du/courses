@@ -4,7 +4,7 @@ services:
   spring-backend:
     build:
       context: ./courses-back
-      dockerfile: Dockerfile_spring
+      dockerfile: ./docker/spring-boot.dockerfile
       args:
         - JAR_FILE=${JAR_FILE}
     image: courses/spring_backend
@@ -18,7 +18,7 @@ services:
   mysqldb:
     build:
       context: ./courses-back
-      dockerfile: ./Dockerfile
+      dockerfile: ./docker/mysql.dockerfile
     image: courses/mysql
     container_name: courses_mysql
     ports:
@@ -39,7 +39,7 @@ services:
   mysqldb_test:
     build:
       context: ./courses-back
-      dockerfile: ./Dockerfile_test
+      dockerfile: ./docker/mysql-test.dockerfile
     image: courses/mysql_test
     container_name: courses_mysql_test
     ports:
