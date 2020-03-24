@@ -15,7 +15,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 public class CoursesApplication implements ApplicationRunner {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(CoursesApplication.class, args);
 	}
 

@@ -7,19 +7,20 @@ services:
       dockerfile: ./docker/spring-boot.dockerfile
       args:
         - JAR_FILE=${JAR_FILE}
-    image: courses/spring_backend
+    image: courses/spring_backend:v1
     container_name: courses_spring
     ports:
       - ${DOCKER_SPRING_EXPOSED_PORT}:8001
     networks:
-      - courses_net
+      - backend_net
+      - frontend_net
     restart: on-failure
   
   mysqldb:
     build:
       context: ./courses-back
       dockerfile: ./docker/mysql.dockerfile
-    image: courses/mysql
+    image: courses/mysql:v1
     container_name: courses_mysql
     ports:
       - ${DOCKER_DB_EXPOSED_PORT}:3306
@@ -33,14 +34,14 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
-      - courses_net
+      - backend_net
     restart: on-failure
 
   mysqldb_test:
     build:
       context: ./courses-back
       dockerfile: ./docker/mysql-test.dockerfile
-    image: courses/mysql_test
+    image: courses/mysql_test:v1
     container_name: courses_mysql_test
     ports:
       - ${DOCKER_DB_EXPOSED_PORT_TEST}:3306
@@ -54,24 +55,25 @@ services:
       MYSQL_USER: ${DB_USERNAME_TEST}
       MYSQL_PASSWORD: ${DB_PASSWORD_TEST}
     networks:
-      - courses_net_test
+      - backend_net
     restart: on-failure
 
   angular:
     build:
       context: ./courses-front
-      dockerfile: ./Dockerfile
-    image: courses/angular
+      dockerfile: ./docker/angular.dockerfile
+    image: courses/angular:v1
     container_name: courses_angular
     ports:
       - ${ANGULAR_EXPOSED_PORT}:4200
+      - ${KARMA_EXPOSED_PORT}:9876
     volumes:
       - './courses-front/:/app'
       - '/app/node_modules'
     environment:
       - CHOKIDAR_USEPOLLING=true
     networks:
-      - courses_net
+      - frontend_net
     restart: on-failure
 
 volumes:
@@ -79,7 +81,7 @@ volumes:
   mysql_test:
 
 networks:
-  courses_net:
-    name: courses_net
-  courses_net_test:
-    name: courses_net_test
+  backend_net:
+    name: backend_net
+  frontend_net:
+    name: frontend_net

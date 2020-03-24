@@ -38,6 +38,7 @@ public class CoursesController {
         log.info("Add course: " + courseData);
         courseService.addCourse(courseData);
         return Response.created(URI.create("/courses-catalogue/api/v2/courses/" + courseData.getId()))
+                .entity(courseData)
                 .build();
     }
 }

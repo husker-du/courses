@@ -35,13 +35,13 @@
         <!-- Hours -->
         <mat-form-field appearance="outline">
           <mat-label>Horas</mat-label>
-          <input matInput type="number" placeholder="Horas" name="hours" [(ngModel)]="course.hours" (focusin)="failed=false" />
+          <input matInput type="number" placeholder="Horas" name="hours" min="0" [(ngModel)]="course.hours" (focusin)="failed=false" />
         </mat-form-field>
 
         <!-- Download subject file -->
         <mat-form-field appearance="outline">
           <mat-label>Temario del Curso</mat-label>
-          <ngx-mat-file-input #removableInput name="subject" placeholder="Temario del Curso"
+          <ngx-mat-file-input #removableInput name="subject" placeholder="Temario del Curso" accept=".pdf,.doc"
                               (change)="onFileChanged($event)" (focusin)="failed=false"></ngx-mat-file-input>
           <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
             <mat-icon>clear</mat-icon>
