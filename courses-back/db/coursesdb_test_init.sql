@@ -35,7 +35,7 @@ DROP TABLE IF EXISTS `courses_db_test`.`subject_file` ;
 CREATE TABLE IF NOT EXISTS `courses_db_test`.`subject_file` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `file_name` VARCHAR(100) NOT NULL,
-  `type` VARCHAR(45) NULL,
+  `type` VARCHAR(100) NULL,
   `data` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;

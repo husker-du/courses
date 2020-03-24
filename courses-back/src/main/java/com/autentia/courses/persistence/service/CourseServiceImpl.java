@@ -104,30 +104,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<String> getCourseTestLevels() {
-        List<String> levels = new ArrayList<>();
-
-        // Get the level enum description from database
-        String levelEnum = customMapper.getLevelEnumTest();
-
-        // Create a pattern object
-        Pattern pattern = Pattern.compile("enum\\(([\\W\\w]+)\\)");
-
-        // Create a matcher object
-        Matcher matcher = pattern.matcher(levelEnum);
-
-        // Extract the levels from the enum comma-separated string
-        if (matcher.find()  &&  matcher.groupCount() == 1) {
-            String[] enums = matcher.group(1).split(",");
-            // Remove quotes and convert to a list of strings
-            levels = Arrays.stream(enums)
-                    .map(e -> e.replace("\'", ""))
-                    .collect(Collectors.toList());
-        }
-        return levels;
-    }
-
-    @Override
     public int addCourse(CourseData courseData) {
         int id = 0;
         String teacherName = courseData.getTeacher();

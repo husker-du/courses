@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,34 +28,31 @@ public class FileController {
     @GetMapping("/{id:[\\d]+}")
     public SubjectFile getSubjectFile(@PathVariable Integer id) {
         SubjectFile file = null;
-
         log.info("Get subject file " + id);
         file = fileService.getFile(id);
         log.info("Subject file data: " + file);
-
         return file;
     }
 
     @PostMapping
-    public ResponseEntity<String> uploadData(MultipartFile file) throws IOException {
+    public ResponseEntity<SubjectFile> uploadData(MultipartFile file) throws IOException {
         SubjectFile subjectFile = new SubjectFile();
         if (file != null) {
             subjectFile.setFileName(file.getOriginalFilename().replace(' ', '_'));
             subjectFile.setType(file.getContentType());
             subjectFile.setData(file.getBytes());
-
             if (fileService.addFile(subjectFile) == 0) {
                 log.error("File not saved");
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-                        .body("Failed to save file " + file.getOriginalFilename());
+                        .body(subjectFile);
             }
         } else {
             log.error("File not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("File not added to request");
+                    .body(null);
         }
         log.info("File successfully saved: " + subjectFile);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(String.format("id_file: %d", subjectFile.getId()));
+        return ResponseEntity.created(URI.create("/courses-catalogue/api/v1/files/" + subjectFile.getId()))
+                .body(subjectFile);
     }
 }

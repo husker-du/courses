@@ -14,7 +14,6 @@ public class SubjectFileServiceImpl implements SubjectFileService {
 
     @Autowired
     public SubjectFileServiceImpl(SubjectFileMapper fileMapper) {
-
         this.fileMapper = fileMapper;
     }
 

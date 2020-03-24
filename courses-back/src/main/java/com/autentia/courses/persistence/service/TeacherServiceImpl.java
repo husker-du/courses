@@ -16,13 +16,11 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     public TeacherServiceImpl(TeacherMapper teacherMapper) {
-
         this.teacherMapper = teacherMapper;
     }
 
     @Override
     public List<Teacher> getAllTeachers() {
-
         return teacherMapper.select(SelectDSLCompleter.allRows());
     }
 

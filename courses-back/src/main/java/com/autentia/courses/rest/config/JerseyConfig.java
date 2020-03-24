@@ -1,7 +1,6 @@
 package com.autentia.courses.rest.config;
 
 import com.autentia.courses.rest.controller.CoursesController;
-import com.autentia.courses.rest.controller.FileController;
 import com.autentia.courses.rest.controller.LevelsController;
 import com.autentia.courses.rest.controller.TeachersController;
 import com.autentia.courses.rest.exception.GenericExceptionMapper;

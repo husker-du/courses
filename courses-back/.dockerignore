@@ -1,0 +1,7 @@
+.dockerignore
+docker
+.git
+.gitignore
+*.iml
+*.md
+mvnw.cmd

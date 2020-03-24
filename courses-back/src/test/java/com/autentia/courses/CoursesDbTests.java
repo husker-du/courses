@@ -60,7 +60,6 @@ class CoursesDbTests {
 
 	@Test
 	void numTeachersShouldBeFive() {
-
 		assertEquals(teacherService.getAllTeachers().size(), 5);
 	}
 
@@ -85,8 +84,7 @@ class CoursesDbTests {
 
 	@Test
 	void enumFieldsShouldBeThree() throws SQLException, ClassNotFoundException {
-
-		assertEquals(courseService.getCourseTestLevels().size(), 3);
+		assertEquals(courseService.getCourseLevels().size(), 3);
 	}
 
 	@Test

@@ -1,0 +1,13 @@
+node_modules/
+npm-debug.log
+docker/
+Dockerfile*
+*.dockerfile
+docker-compose*
+.dockerignore
+.git/
+.gitignore
+*.md
+LICENSE
+.editorconfig
+.idea/

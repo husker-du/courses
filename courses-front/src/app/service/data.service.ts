@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private fileName = new BehaviorSubject('');
+  private fileName: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private fileData: BehaviorSubject<Blob> = new BehaviorSubject<Blob>(null);
 
-  public currentFileName = this.fileName.asObservable();
+  public currentFileName: Observable<string> = this.fileName.asObservable();
+  public currentFileData: Observable<Blob> = this.fileData.asObservable();
 
   constructor() { }
 
-  public changeFileName(fileName: string) {
+  public changeFileName(fileName: string): void {
     this.fileName.next(fileName);
+  }
+
+  public changeFileData(fileData: Blob): void {
+    this.fileData.next(fileData);
   }
 }
