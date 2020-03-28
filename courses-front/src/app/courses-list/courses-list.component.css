@@ -12,8 +12,11 @@ mat-card {
 }
 
 mat-card-content {
+  /*
   height: 450px;
   overflow: auto;
+  */
+  overflow: visible;
 }
 
 th.mat-header-cell {
@@ -26,4 +29,9 @@ td.mat-cell {
 
 mat-toolbar {
   padding-left: 44%;
+}
+
+.page-footer {
+  text-align: center;
+  padding: 3em;
 }

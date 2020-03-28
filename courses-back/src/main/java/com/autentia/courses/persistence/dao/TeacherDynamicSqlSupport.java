@@ -1,4 +1,4 @@
-package com.autentia.courses.persistence.mapper;
+package com.autentia.courses.persistence.dao;
 
 import java.sql.JDBCType;
 import javax.annotation.Generated;

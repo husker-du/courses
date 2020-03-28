@@ -10,6 +10,10 @@
   padding-top: 20px;
 }
 
+.example-container > mat-checkbox {
+  padding-bottom: 20px;
+}
+
 mat-toolbar {
   padding-left: 46%;
 }
@@ -20,4 +24,9 @@ mat-checkbox {
 
 th[mat-header-cell] {
   color: red;
+}
+
+.page-footer {
+  text-align: center;
+  padding: 3em;
 }

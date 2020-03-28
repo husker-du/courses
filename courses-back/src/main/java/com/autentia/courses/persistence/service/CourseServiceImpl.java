@@ -1,8 +1,8 @@
 package com.autentia.courses.persistence.service;
 
-import com.autentia.courses.persistence.mapper.CourseMapper;
-import com.autentia.courses.persistence.mapper.CustomMapper;
-import com.autentia.courses.persistence.mapper.TeacherMapper;
+import com.autentia.courses.persistence.dao.CourseMapper;
+import com.autentia.courses.persistence.dao.CustomMapper;
+import com.autentia.courses.persistence.dao.TeacherMapper;
 import com.autentia.courses.persistence.model.Course;
 import com.autentia.courses.persistence.model.CourseData;
 import com.autentia.courses.persistence.model.Teacher;
@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport.title;
+import static com.autentia.courses.persistence.dao.CourseDynamicSqlSupport.title;
 
 @Slf4j
 @Service

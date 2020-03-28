@@ -6,8 +6,8 @@
   <!-- Courses table -->
   <mat-card-content>
     <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+      <!-- Note that these columns can be defined in any order.
+           The actual rendered columns are set as a property on the row definition" -->
       <!-- Title Column -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
@@ -53,7 +53,6 @@
   </mat-card-footer>
 </mat-card>
 
-<br>
-<div style="text-align:center">
+<div class="page-footer">
   <button mat-stroked-button color="primary" [routerLink]="'/courses-add'">Nuevo Curso</button>
 </div>
