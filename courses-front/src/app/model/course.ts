@@ -1,3 +1,5 @@
+import { Teacher } from "../model/teacher";
+
 export class Course {
   id: number;
   title: string;
@@ -5,6 +7,6 @@ export class Course {
   hours: number;
   active: number;
   idTeacher: number;
-  teacher: string;
+  teacher: Teacher;
   idFile: number;
 }

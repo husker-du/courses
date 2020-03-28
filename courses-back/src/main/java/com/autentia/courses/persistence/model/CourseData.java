@@ -1,10 +1,13 @@
 package com.autentia.courses.persistence.model;
 
-public class CourseData extends Course {
-    private String teacher;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-    public CourseData(Integer id, String title, String level,
-                      Integer hours, Byte active, Integer idFile, Integer idTeacher, String teacher) {
+public class CourseData extends Course {
+    private Teacher teacher;
+
+    public CourseData(final Integer id, final String title, final String level, final Integer hours,
+                      final Byte active, final Integer idFile, final Integer idTeacher, final Teacher teacher) {
         super.setId(id);
         super.setTitle(title);
         super.setLevel(level);
@@ -15,12 +18,32 @@ public class CourseData extends Course {
         this.teacher = teacher;
     }
 
-    public String getTeacher() {
+    public Teacher getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(String teacher) {
+    public void setTeacher(final Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CourseData that = (CourseData) o;
+
+        return new EqualsBuilder()
+                .append(teacher, that.teacher)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(teacher)
+                .toHashCode();
     }
 
     @Override

@@ -31,13 +31,17 @@ public class CourseServiceImpl implements CourseService {
 
     private CustomMapper customMapper;
 
+    private TeacherService teacherService;
+
     @Autowired
     public CourseServiceImpl(CourseMapper courseMapper,
                              TeacherMapper teacherMapper,
-                             CustomMapper customMapper) {
+                             CustomMapper customMapper,
+                             TeacherService teacherService) {
         this.courseMapper = courseMapper;
         this.teacherMapper = teacherMapper;
         this.customMapper = customMapper;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -51,14 +55,13 @@ public class CourseServiceImpl implements CourseService {
         return getAllCourses().stream()
                 .filter(course -> course.getActive().byteValue() == (byte)1)
                 .map(course -> {
-                    String teacherName = "";
+                    Teacher teacher = null;
                     Optional<Teacher> optTeacher = teacherMapper.selectByPrimaryKey(course.getIdTeacher());
                     if (optTeacher.isPresent()) {
-                        Teacher teacher = optTeacher.get();
-                        teacherName = String.format("%s %s", teacher.getFirstName(), teacher.getLastName());
+                        teacher = optTeacher.get();
                     }
                     return new CourseData(course.getId(), course.getTitle(), course.getLevel(),
-                            course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacherName);
+                            course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacher);
                 })
                 .collect(Collectors.toList());
     }
@@ -70,9 +73,8 @@ public class CourseServiceImpl implements CourseService {
             Optional<Teacher> optTeacher = teacherMapper.selectByPrimaryKey(course.getIdTeacher());
             if (optTeacher.isPresent()) {
                 Teacher teacher = optTeacher.get();
-                String teacherName = String.format("%s %s", teacher.getFirstName(), teacher.getLastName());
                 CourseData courseData = new CourseData(course.getId(), course.getTitle(), course.getLevel(),
-                        course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacherName);
+                        course.getHours(), course.getActive(), course.getIdFile(), course.getIdTeacher(), teacher);
                 courseList.add(courseData);
             }
         }
@@ -106,13 +108,27 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public int addCourse(CourseData courseData) {
         int id = 0;
-        String teacherName = courseData.getTeacher();
-        Integer idTeacher = customMapper.findTeacherIdByName(teacherName);
-        Course course = (Course)courseData;
-        course.setIdTeacher(idTeacher);
+        Course course = new Course();
+        course.setTitle(courseData.getTitle());
+        course.setLevel(courseData.getLevel());
+        course.setActive(courseData.getActive());
+        course.setHours(courseData.getHours());
+        course.setIdFile(courseData.getIdFile());
+
+        // Set the teacher id into the course data
+        Teacher teacher = courseData.getTeacher();
+        if (teacher != null) {
+            Teacher teacherDb = teacherService.getTeacherByName(teacher.getFirstName(), teacher.getLastName());
+            if (teacherDb != null) {
+                course.setIdTeacher(teacherDb.getId());
+            }
+        }
+
+        // Insert the course data into database
         if (courseMapper.insert(course) > 0) {
             id = course.getId();
         }
+
         return id;
     }
 }

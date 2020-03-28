@@ -9,4 +9,6 @@ public interface TeacherService {
     List<Teacher> getAllTeachers();
 
     List<String> getTeacherNames();
+
+    Teacher getTeacherByName(final String firstname, final String lastname);
 }
