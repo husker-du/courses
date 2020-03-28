@@ -17,7 +17,7 @@
         <javaModelGenerator targetPackage="com.autentia.courses.persistence.model"
                             targetProject="src/main/java" />
 
-        <javaClientGenerator targetPackage="com.autentia.courses.persistence.mapper"
+        <javaClientGenerator targetPackage="com.autentia.courses.persistence.dao"
                              targetProject="src/main/java" />
 
         <table tableName="teacher">

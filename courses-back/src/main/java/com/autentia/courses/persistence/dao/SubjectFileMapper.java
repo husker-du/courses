@@ -1,6 +1,6 @@
-package com.autentia.courses.persistence.mapper;
+package com.autentia.courses.persistence.dao;
 
-import static com.autentia.courses.persistence.mapper.SubjectFileDynamicSqlSupport.*;
+import static com.autentia.courses.persistence.dao.SubjectFileDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 import com.autentia.courses.persistence.model.SubjectFile;

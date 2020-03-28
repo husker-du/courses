@@ -1,9 +1,9 @@
 package com.autentia.courses;
 
-import com.autentia.courses.persistence.mapper.CourseMapper;
-import com.autentia.courses.persistence.mapper.CustomMapper;
-import com.autentia.courses.persistence.mapper.TeacherDynamicSqlSupport;
-import com.autentia.courses.persistence.mapper.TeacherMapper;
+import com.autentia.courses.persistence.dao.CourseMapper;
+import com.autentia.courses.persistence.dao.CustomMapper;
+import com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport;
+import com.autentia.courses.persistence.dao.TeacherMapper;
 import com.autentia.courses.persistence.model.Course;
 import com.autentia.courses.persistence.model.CourseData;
 import com.autentia.courses.persistence.model.Teacher;
@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.autentia.courses.persistence.mapper.CourseDynamicSqlSupport.*;
-import static com.autentia.courses.persistence.mapper.TeacherDynamicSqlSupport.*;
+import static com.autentia.courses.persistence.dao.CourseDynamicSqlSupport.*;
+import static com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 

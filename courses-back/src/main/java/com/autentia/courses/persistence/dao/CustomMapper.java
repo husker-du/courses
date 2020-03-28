@@ -1,4 +1,4 @@
-package com.autentia.courses.persistence.mapper;
+package com.autentia.courses.persistence.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

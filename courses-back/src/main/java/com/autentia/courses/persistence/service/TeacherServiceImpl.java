@@ -1,6 +1,6 @@
 package com.autentia.courses.persistence.service;
 
-import com.autentia.courses.persistence.mapper.TeacherMapper;
+import com.autentia.courses.persistence.dao.TeacherMapper;
 import com.autentia.courses.persistence.model.Teacher;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.springframework.beans.factory.annotation.Autowired;
