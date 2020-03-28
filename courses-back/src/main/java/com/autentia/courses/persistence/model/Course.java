@@ -96,7 +96,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return String.format("Course{ id=%d, title=%s, level=%s, hours=%d, active=%d, idTeacher=%d, teacher=%s",
+        return String.format("Coursed{ id=%d, title=%s, level=%s, hours=%d, active=%d, idTeacher=%d, teacher=%s",
                 id, title, level, hours, active, idTeacher);
     }
 }

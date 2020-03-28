@@ -14,7 +14,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Profesor</mat-label>
           <mat-select placeholder="Profesor" name="teacher" [(ngModel)]="course.teacher" (focusin)="failed=false">
-            <mat-option value="option" *ngFor="let teacherName of teacherNames" [value] = "teacherName">{{ teacherName }}</mat-option>
+            <mat-option value="option" *ngFor="let teacher of teachers" [value] = "teacher">{{ teacher.firstName }} {{ teacher.lastName }}</mat-option>
           </mat-select>
         </mat-form-field>
 

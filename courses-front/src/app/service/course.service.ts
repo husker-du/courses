@@ -18,7 +18,7 @@ export class CourseService {
     return this.http.get<Course[]>(CourseService.API_ENDPOINT + '/courses');
   }
 
-  public createCourse(course: Course): Observable<any> {
+  public saveCourse(course: Course): Observable<any> {
     return this.http.post(CourseService.API_ENDPOINT + '/courses', course );
   }
 

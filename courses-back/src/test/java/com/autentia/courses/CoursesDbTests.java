@@ -25,6 +25,8 @@ import java.util.Optional;
 import static com.autentia.courses.persistence.dao.CourseDynamicSqlSupport.*;
 import static com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @SpringBootTest
@@ -38,16 +40,17 @@ class CoursesDbTests {
 
 	private TeacherService teacherService;
 
-	@Autowired
 	private CourseMapper courseMapper;
 
 	@Autowired
 	public CoursesDbTests(TeacherMapper teacherMapper,
 						  CustomMapper customMapper,
+						  CourseMapper courseMapper,
 						  CourseService courseService,
 						  TeacherService teacherService) {
 		this.teacherMapper = teacherMapper;
 		this.customMapper = customMapper;
+		this.courseMapper = courseMapper;
 		this.courseService = courseService;
 		this.teacherService = teacherService;
 	}
@@ -106,7 +109,9 @@ class CoursesDbTests {
 				.filter(course -> course.getTitle().equals("Angular 2"))
 				.findAny();
 		assertTrue(optCourse.isPresent());
-		assertEquals(optCourse.get().getTeacher(),"Rubén Aguilera");
+		assertNotNull(optCourse.get().getTeacher());
+		assertEquals(optCourse.get().getTeacher().getFirstName(), "Rubén");
+		assertEquals(optCourse.get().getTeacher().getLastName(), "Aguilera");
 	}
 
 	@Test
@@ -118,10 +123,24 @@ class CoursesDbTests {
 	@Test
 	@Transactional
 	void insertCourseShouldCountFive() {
-		CourseData courseData = new CourseData(null, "C-Sharp for Dummies 2",
-				"Intermedio", 30, (byte)0, null, null,"Alejandra Mateos");
-		assertNotEquals(courseService.addCourse(courseData), 0);
-		assertEquals(courseMapper.select(SelectDSLCompleter.allRows()).size(), 5);
+		// given
+		CourseData courseData = mock(CourseData.class);
+		Teacher teacher = mock(Teacher.class);
+
+		// when
+		when(teacher.getFirstName()).thenReturn("Alejandra");
+		when(teacher.getLastName()).thenReturn("Mateos");
+
+		when(courseData.getTitle()).thenReturn("C-Sharp for Dummies 2");
+		when(courseData.getLevel()).thenReturn("Intermedio");
+		when(courseData.getHours()).thenReturn(30);
+		when(courseData.getActive()).thenReturn((byte)0);
+		when(courseData.getTeacher()).thenReturn(teacher);
+		when(courseData.getIdFile()).thenReturn(null);
+
+		// then
+		assertNotEquals(0, courseService.addCourse(courseData));
+		assertEquals(5, courseMapper.select(SelectDSLCompleter.allRows()).size());
 	}
 
 	@Test

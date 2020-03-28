@@ -30,11 +30,15 @@ export class CoursesAddComponent implements OnInit {
     return this._course;
   }
 
+  get teachers(): Teacher[] {
+    return this._teachers;
+  }
+
   private _title: string = "Añadir Curso";
 
   private _course: Course = new Course();
 
-  private teachers: Teacher[] = [];
+  private _teachers: Teacher[] = [];
 
   private _teacherNames: string[] = [] ;
 
@@ -85,7 +89,7 @@ export class CoursesAddComponent implements OnInit {
   }
 
   private saveCourse(): void {
-    this.courseService.createCourse(this._course)
+    this.courseService.saveCourse(this._course)
       .subscribe(response => {
           if (response instanceof HttpResponse) {
             console.log(response.body);
@@ -107,8 +111,8 @@ export class CoursesAddComponent implements OnInit {
   private loadTeachers(): void {
     this.courseService.getAllTeachers()
       .subscribe(data => {
-        this.teachers = data;
-        this.teachers.forEach(teacher =>
+        this._teachers = data;
+        this._teachers.forEach(teacher =>
             this._teacherNames.push(teacher.firstName + ' ' + teacher.lastName)
         );
       },
