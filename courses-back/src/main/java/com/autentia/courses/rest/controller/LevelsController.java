@@ -1,6 +1,6 @@
 package com.autentia.courses.rest.controller;
 
-import com.autentia.courses.persistence.service.CourseService;
+import com.autentia.courses.persistence.service.CustomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,17 +16,17 @@ import java.util.List;
 @Path("/levels")
 public class LevelsController {
 
-    CourseService courseService;
+    private CustomService customService;
 
     @Autowired
-    public LevelsController(CourseService courseService) {
-        this.courseService = courseService;
+    public LevelsController(final CustomService customService) {
+        this.customService = customService;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getAllTeachers() {
         log.info("Get the course levels");
-        return courseService.getCourseLevels();
+        return customService.getCourseLevels();
     }
 }

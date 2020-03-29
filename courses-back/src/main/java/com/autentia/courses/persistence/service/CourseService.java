@@ -27,14 +27,6 @@ public interface CourseService {
     List<CourseData> getAllCourseData();
 
     /**
-     * Get the course leves.
-     * The enum in the 'LEVEL' column in database is inspected and the values of levels
-     * are parsed from the enum in database.
-     * @return  the list of course levels.
-     */
-    List<String> getCourseLevels();
-
-    /**
      * Insert a new course into the database.
      * @param course  the course data to be inserted.
      * @return  the id of the inserted course.

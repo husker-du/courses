@@ -11,4 +11,8 @@ public interface TeacherService {
     List<String> getTeacherNames();
 
     Teacher getTeacherByName(final String firstname, final String lastname);
+
+    Teacher getTeacherById(final Integer id);
+
+    Long numTeachersByAge(final Integer age);
 }

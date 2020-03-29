@@ -6,8 +6,10 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class TeacherDbTests {
 
     private TeacherService teacherService;
@@ -29,5 +31,16 @@ public class TeacherDbTests {
         // then
         Assert.assertNotNull(teacher);
         Assert.assertEquals(Integer.valueOf(4), teacher.getId());
+    }
+
+    public void teacherWithId1ShouldBeFound() {
+        // given
+        Integer id = 1;
+
+        // when
+        Teacher teacher = teacherService.getTeacherById(id);
+
+        // then
+        Assert.assertNotNull(teacher);
     }
 }

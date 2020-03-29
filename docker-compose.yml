@@ -11,6 +11,8 @@ services:
     container_name: courses_spring
     ports:
       - ${DOCKER_SPRING_EXPOSED_PORT}:8001
+    environment:
+      jasypt.encryptor.password: ${SECRET_KEY}
     networks:
       - backend_net
       - frontend_net
