@@ -1,13 +1,11 @@
 package com.autentia.courses;
 
 import com.autentia.courses.persistence.dao.CourseMapper;
-import com.autentia.courses.persistence.dao.CustomMapper;
-import com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport;
-import com.autentia.courses.persistence.dao.TeacherMapper;
 import com.autentia.courses.persistence.model.Course;
 import com.autentia.courses.persistence.model.CourseData;
 import com.autentia.courses.persistence.model.Teacher;
 import com.autentia.courses.persistence.service.CourseService;
+import com.autentia.courses.persistence.service.CustomService;
 import com.autentia.courses.persistence.service.TeacherService;
 import org.junit.jupiter.api.Test;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -15,6 +13,7 @@ import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
@@ -27,32 +26,30 @@ import static com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class CoursesDbTests {
-
-	private TeacherMapper teacherMapper;
-
-	private CustomMapper customMapper;
 
 	private CourseService courseService;
 
 	private TeacherService teacherService;
 
+	private CustomService customService;
+
 	private CourseMapper courseMapper;
 
 	@Autowired
-	public CoursesDbTests(TeacherMapper teacherMapper,
-						  CustomMapper customMapper,
-						  CourseMapper courseMapper,
-						  CourseService courseService,
-						  TeacherService teacherService) {
-		this.teacherMapper = teacherMapper;
-		this.customMapper = customMapper;
-		this.courseMapper = courseMapper;
+	public CoursesDbTests(CourseService courseService,
+						  TeacherService teacherService,
+						  CustomService customService,
+						  CourseMapper courseMapper) {
 		this.courseService = courseService;
 		this.teacherService = teacherService;
+		this.customService = customService;
+		this.courseMapper = courseMapper;
 	}
 
 	@Test
@@ -68,31 +65,23 @@ class CoursesDbTests {
 
 	@Test
 	void numTeachersAge30ShouldBeTwo() {
-		assertEquals(teacherMapper.count(
-				c -> c.where(TeacherDynamicSqlSupport.age,  isEqualTo(30))), 2);
-	}
+		// given
+		Integer age = 30;
 
-	@Test
-	void firstNameShouldBeAlejandra() {
-		SelectStatementProvider selectStatement = select(teacher.id, firstName, lastName, age)
-				.from(teacher)
-				.where(lastName, isEqualTo("Mateos"))
-				.build()
-				.render(RenderingStrategies.MYBATIS3);
-		Optional<Teacher> optTeacher = teacherMapper.selectOne(selectStatement);
+		// when
+		Long numTeachers = teacherService.numTeachersByAge(age);
 
-		assertTrue(optTeacher.isPresent());
-		assertEquals(optTeacher.get().getFirstName(), "Alejandra");
+		// then
+		assertEquals(2, numTeachers);
 	}
 
 	@Test
 	void enumFieldsShouldBeThree() throws SQLException, ClassNotFoundException {
-		assertEquals(courseService.getCourseLevels().size(), 3);
+		assertEquals(customService.getCourseLevels().size(), 3);
 	}
 
 	@Test
 	void numCoursesShouldBeFour() {
-
 		assertEquals(courseService.getAllCourses().size(), 4);
 	}
 
@@ -115,22 +104,13 @@ class CoursesDbTests {
 	}
 
 	@Test
-	void davidGomezShouldHaveIdThree() {
-
-		assertEquals(customMapper.findTeacherIdByName("David Gómez"), 3);
-	}
-
-	@Test
 	@Transactional
 	void insertCourseShouldCountFive() {
 		// given
 		CourseData courseData = mock(CourseData.class);
 		Teacher teacher = mock(Teacher.class);
-
-		// when
 		when(teacher.getFirstName()).thenReturn("Alejandra");
 		when(teacher.getLastName()).thenReturn("Mateos");
-
 		when(courseData.getTitle()).thenReturn("C-Sharp for Dummies 2");
 		when(courseData.getLevel()).thenReturn("Intermedio");
 		when(courseData.getHours()).thenReturn(30);
@@ -138,9 +118,13 @@ class CoursesDbTests {
 		when(courseData.getTeacher()).thenReturn(teacher);
 		when(courseData.getIdFile()).thenReturn(null);
 
+		// when
+		Integer idCourse = courseService.addCourse(courseData);
+		Integer numCourses = courseMapper.select(SelectDSLCompleter.allRows()).size();
+
 		// then
-		assertNotEquals(0, courseService.addCourse(courseData));
-		assertEquals(5, courseMapper.select(SelectDSLCompleter.allRows()).size());
+		assertNotEquals(0, idCourse);
+		assertEquals(5, numCourses);
 	}
 
 	@Test

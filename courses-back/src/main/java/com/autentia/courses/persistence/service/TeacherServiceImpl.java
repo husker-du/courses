@@ -1,5 +1,6 @@
 package com.autentia.courses.persistence.service;
 
+import com.autentia.courses.persistence.dao.TeacherDynamicSqlSupport;
 import com.autentia.courses.persistence.dao.TeacherMapper;
 import com.autentia.courses.persistence.model.Teacher;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -39,7 +40,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher getTeacherByName(String firstname, String lastname) {
+    public Teacher getTeacherByName(final String firstname, final String lastname) {
         Teacher teacherFromDb = null;
         SelectStatementProvider selectStatement = select(id, firstName, lastName, age)
                 .from(teacher)
@@ -52,5 +53,21 @@ public class TeacherServiceImpl implements TeacherService {
             teacherFromDb = optTeacher.get();
         }
         return teacherFromDb;
+    }
+
+    @Override
+    public Teacher getTeacherById(final Integer id) {
+        Teacher teacher = null;
+        Optional<Teacher> optTeacher = teacherMapper.selectByPrimaryKey(id);
+        if (optTeacher.isPresent()) {
+            teacher = optTeacher.get();
+        }
+        return teacher;
+    }
+
+    @Override
+    public Long numTeachersByAge(final Integer age) {
+        return teacherMapper.count(
+                c -> c.where(TeacherDynamicSqlSupport.age,  isEqualTo(age)));
     }
 }
